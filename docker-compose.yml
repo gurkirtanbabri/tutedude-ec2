@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./
+      dockerfile: Dockerfile-backend
+    hostname: backend
+    ports:
+      - "5000:5000"
+    environment:  
+      - MONGO_URI=mongodb://mongo:27017
+      - PORT=5000
+    depends_on:
+      - mongo
+    networks:
+      - todo-network
+
+  mongo:
+    image: mongo:latest
+    hostname: mongo 
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db 
+    networks:
+      - todo-network  
+    
+  frontend:
+    build:  
+      context: .  
+      dockerfile: Dockerfile-frontend
+    hostname: frontend
+    environment: 
+      - VITE_API_URL=http://127.0.0.1:5000
+      - PORT=3000 
+    ports:
+      - "3000:3000"
+    networks:
+      - todo-network    
+    depends_on:
+      - backend 
+
+networks:
+  todo-network: {}
+volumes:
+  mongo_data: 
