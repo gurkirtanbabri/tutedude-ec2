@@ -66,6 +66,7 @@ def update_todo(todo_id):
         return jsonify({'error': 'Todo not found'}), 404
     except:
         return jsonify({'error': 'Invalid ID'}), 400
+MONGO_URI=mongodb+srv://gs:gurkirtan@cluster0.dysdquo.mongodb.net/?appName=Cluster0
 
 @app.route('/api/todos/<todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):

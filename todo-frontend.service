@@ -1,0 +1,15 @@
+[Unit]
+Description=Todo Frontend (npm)
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/tutedude-ec2/frontend
+ExecStart=/usr/bin/npm run dev
+Restart=always
+RestartSec=5
+Environment=HOME="/home/ubuntu"
+
+[Install]
+WantedBy=multi-user.target
