@@ -24,12 +24,12 @@ def serialize_todo(todo):
         'completed': todo['completed']
     }
 
-@app.route('/todos', methods=['GET'])
+@app.route('/api/todos', methods=['GET'])
 def get_todos():
     todos = todos_collection.find()
     return jsonify([serialize_todo(todo) for todo in todos])
 
-@app.route('/todos', methods=['POST'])
+@app.route('/api/todos', methods=['POST'])
 def add_todo():
     data = request.get_json()
     if not data or 'text' not in data:
@@ -43,7 +43,7 @@ def add_todo():
     todo['_id'] = result.inserted_id
     return jsonify(serialize_todo(todo)), 201
 
-@app.route('/todos/<todo_id>', methods=['PUT'])
+@app.route('/api/todos/<todo_id>', methods=['PUT'])
 def update_todo(todo_id):
     data = request.get_json()
     update_data = {}
@@ -67,7 +67,7 @@ def update_todo(todo_id):
     except:
         return jsonify({'error': 'Invalid ID'}), 400
 
-@app.route('/todos/<todo_id>', methods=['DELETE'])
+@app.route('/api/todos/<todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
     try:
         result = todos_collection.delete_one({'_id': ObjectId(todo_id)})
